@@ -1,2 +1,2 @@
 # Angular-SpringBoot-Project
-Project using Angular and SpringBoot
+Project using Angular,SpringBoot and MySQL.
