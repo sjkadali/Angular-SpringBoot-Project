@@ -1,2 +1,2 @@
-# Angular-Spring Boot-Project
+# Reddit Clone
 Project using Angular,SpringBoot and MySQL.
