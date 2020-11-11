@@ -1,2 +1,3 @@
 # Spring Boot Angular Blog
-Project using Angular,SpringBoot and MySQL.
+
+A blog created using Angular, SpringBoot and MySQL.
