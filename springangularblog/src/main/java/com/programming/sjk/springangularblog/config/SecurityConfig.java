@@ -16,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.programming.sjk.springangularblog.security.JwtAuthenticationFilter;
+
 
 
 @EnableWebSecurity
@@ -23,6 +25,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	@Bean
+	public JwtAuthenticationFilter jwtAutenticationFilter() {
+		return new JwtAuthenticationFilter();
+	}
 	
 	@Bean(BeanIds.AUTHENTICATION_MANAGER)
 	@Override
@@ -38,6 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .anyRequest()
                 .authenticated();
+        
+        httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
     }
 	
 	public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
