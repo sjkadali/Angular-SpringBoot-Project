@@ -29,18 +29,17 @@ public class PostService {
 		postRepository.save(post);
 	}
 	
-	public PostDto readSinglePost(long id) {
-		Post post = postRepository.findById(id).orElseThrow(()  -> new PostNotFoundException("For id "+id));
+	public PostDto readSinglePost(Long id) {
+		Post post = postRepository.findById(id).orElseThrow(() -> new PostNotFoundException("For id "+id));
 		return mapFromPostToDto(post);
 	}
 	
 	private PostDto mapFromPostToDto(Post post) {
 		PostDto postDto = new PostDto();
 		postDto.setId(post.getId());
-		post.setTitle(postDto.getTitle());
-		post.setContent(postDto.getContent());
+		postDto.setTitle(post.getTitle());
+		postDto.setContent(post.getContent());
 		postDto.setUsername(post.getUsername());
-		System.out.println("postDto: "+ postDto);
 		return postDto;
 	}
 
@@ -59,7 +58,6 @@ public class PostService {
 	@Transactional
 	public List<PostDto> showAllPosts() {
 		List<Post> posts = postRepository.findAll();
-		System.out.println("Posts: "+  posts);
 		return posts.stream().map(this::mapFromPostToDto).collect(toList());
 	}
 }

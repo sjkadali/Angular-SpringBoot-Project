@@ -1,7 +1,6 @@
 package com.programming.sjk.springangularblog.security;
 
 import java.security.Key;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.security.core.Authentication;

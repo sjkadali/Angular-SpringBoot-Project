@@ -16,7 +16,7 @@ import com.programming.sjk.springangularblog.dto.PostDto;
 import com.programming.sjk.springangularblog.service.PostService;
 
 @RestController
-@RequestMapping("/api/posts/")
+@RequestMapping("/api/posts")
 public class PostController {
 	
 	@Autowired
@@ -30,11 +30,12 @@ public class PostController {
 
 	@GetMapping("/all")
 	public ResponseEntity<List<PostDto>> showAllPosts() {
-		return new ResponseEntity<>(postService.showAllPosts(), HttpStatus.OK);
+		return new ResponseEntity<List<PostDto>>(postService.showAllPosts(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/get/{id}")
 	public ResponseEntity<PostDto> getSinglePost(@PathVariable @RequestBody Long id)  {
-		return new ResponseEntity<>(postService.readSinglePost(id), HttpStatus.OK);
+		ResponseEntity<PostDto>  resEty= new ResponseEntity<PostDto>(postService.readSinglePost(id), HttpStatus.OK);
+		return resEty;
 	}
 }
