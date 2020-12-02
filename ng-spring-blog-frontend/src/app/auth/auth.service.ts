@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RegisterPayload } from './register-payload';
 import { Observable } from 'rxjs';
 import { LoginPayload } from './login-payload';
 import { JwtAuthResponse } from './jwt-auth-response';
 import { map } from 'rxjs/operators';
-import { LocalStorageService } from 'ngx-web-storage';
+import { LocalStorageService } from 'ngx-webstorage';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
@@ -21,11 +25,13 @@ export class AuthService {
     return this.httpClient.post(this.url + 'signup', registerPayload);
   }
 
-  login(loginPayload: LoginPayload) {
-    this.httpClient.post<JwtAuthResponse>(this.url + 'login', loginPayload).pipe(
+  login(loginPayload: LoginPayload): Observable<any> {
+    return this.httpClient.post<JwtAuthResponse>(this.url + 'login', 
+    loginPayload, httpOptions).pipe(
       map(data =>{
+        console.log("data: "+ data);
         this.localStorageService.store('authenticationToken', data.authenticationToken);
         this.localStorageService.store('username', data.username);
-      }));
+      }));      
   }
 }

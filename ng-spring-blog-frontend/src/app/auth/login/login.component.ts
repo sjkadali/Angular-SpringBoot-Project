@@ -9,14 +9,17 @@ import { LoginPayload } from '../login-payload';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
   loginForm: FormGroup;
   loginPayload: LoginPayload;
   constructor(private authService: AuthService) { 
     this.loginForm = new FormGroup({
       username: new FormControl(),
       password: new FormControl()
-    })
+    });
+    this.loginPayload = {
+      username: '',
+      password: ''
+    };
   }
 
   ngOnInit(): void {
@@ -25,5 +28,14 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.loginPayload.username = this.loginForm.get('username').value;
     this.loginPayload.password = this.loginForm.get('password').value;
+    this.authService.login(this.loginPayload).subscribe(
+      data => {
+        if(data) {
+          console.log("User is logged in!");
+        } else {
+          console.log("Login Failed");
+        }
+      }
+    );
   }
 }
