@@ -11,7 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.programming.sjk.springangularblog.dto.LoginRequest;
 import com.programming.sjk.springangularblog.dto.RegisterRequest;
+import com.programming.sjk.springangularblog.exception.SpringBlogException;
 import com.programming.sjk.springangularblog.service.AuthService;
+import com.programming.sjk.springangularblog.service.AuthenticationResponse;
+
+import io.jsonwebtoken.security.InvalidKeyException;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -27,7 +31,8 @@ public class AuthController {
 	}
 	
 	@PostMapping("/login")
-	public String login(@RequestBody LoginRequest loginRequest) {
-		return authService.login(loginRequest);
-	}
+	public AuthenticationResponse login(@RequestBody LoginRequest loginRequest) {
+		return authService.login(loginRequest);		
+	} 		
+	
 }

@@ -8,7 +8,8 @@ import { map } from 'rxjs/operators';
 import { LocalStorageService } from 'ngx-webstorage';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({
+      'responseType': 'JSON'})
 };
 
 @Injectable({
@@ -25,13 +26,14 @@ export class AuthService {
     return this.httpClient.post(this.url + 'signup', registerPayload);
   }
 
-  login(loginPayload: LoginPayload): Observable<any> {
+  login(loginPayload: LoginPayload): Observable<boolean> {
     return this.httpClient.post<JwtAuthResponse>(this.url + 'login', 
     loginPayload, httpOptions).pipe(
       map(data =>{
-        console.log("data: "+ data);
+        console.log("data: "+ data.authenticationToken, data.username);
         this.localStorageService.store('authenticationToken', data.authenticationToken);
         this.localStorageService.store('username', data.username);
+        return true;
       }));      
   }
 }

@@ -12,9 +12,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.programming.sjk.springangularblog.exception.SpringBlogException;
+
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -28,14 +36,34 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		String jwt = getJwtFromRequest(request);
 		
-		if(StringUtils.hasText(jwt) && jwtProvider.validateToken(jwt)) {
-			String username = jwtProvider.getUsernameFromJWT(jwt);
-			
-			UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
-					null, userDetails.getAuthorities());
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));			
-			SecurityContextHolder.getContext().setAuthentication(authentication);
+		try {
+			if(StringUtils.hasText(jwt) && jwtProvider.validateToken(jwt)) {
+				String username = jwtProvider.getUsernameFromJWT(jwt);
+				
+				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
+						null, userDetails.getAuthorities());
+			    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));			
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+			}
+		} catch (SignatureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExpiredJwtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedJwtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MalformedJwtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UsernameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		filterChain.doFilter(request, response);
 	}
