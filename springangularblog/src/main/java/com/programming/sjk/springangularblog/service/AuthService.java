@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.programming.sjk.springangularblog.dto.LoginRequest;
 import com.programming.sjk.springangularblog.dto.RegisterRequest;
+import com.programming.sjk.springangularblog.exception.SpringBlogException;
 import com.programming.sjk.springangularblog.model.User;
 import com.programming.sjk.springangularblog.repository.UserRepository;
 import com.programming.sjk.springangularblog.security.JwtProvider;
@@ -40,7 +41,7 @@ public class AuthService {
 		return passwordEncoder.encode(password);
 	}
 	
-	public AuthenticationResponse login(LoginRequest loginRequest) {
+	public AuthenticationResponse login(LoginRequest loginRequest) throws SpringBlogException {
 		Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
 				loginRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authenticate);

@@ -46,25 +46,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));			
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}
-		} catch (SignatureException e) {
-			// TODO Auto-generated catch block
+		} catch (SpringBlogException e) {
 			e.printStackTrace();
-		} catch (ExpiredJwtException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedJwtException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MalformedJwtException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UsernameNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 		filterChain.doFilter(request, response);
 	}
 
