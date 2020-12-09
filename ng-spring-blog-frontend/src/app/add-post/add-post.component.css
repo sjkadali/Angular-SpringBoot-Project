@@ -1,5 +1,5 @@
 .add-post-content{
-    padding-top: 20px;
+    padding-top: 20px;    
   }
   
   .new-post-title{
@@ -8,5 +8,11 @@
   
   .post-content, .post-title{
     color: royalblue;
+  }
+
+  .cancel {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 5px;
   }
   
